@@ -2,7 +2,7 @@
 
 Isabella Frisbee 
 Fall 2026
-Current assignment: HW1
+Current assignment: HW2
 
 This is a single player and single roll Java implementation of Zag Farkle. Run it from the folder containing the .java files using javac *.java then java Farkle.
 

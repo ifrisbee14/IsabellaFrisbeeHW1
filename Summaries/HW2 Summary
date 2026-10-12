@@ -1,1 +1,32 @@
+Homework 2 Summary
 
+The goal of Homework 2 was to build on the first version of Zag Farkle by letting the player
+continue their turn through multiple rolls. The updated program asks for a player name,
+displays an introduction banner, and lets the player choose dice for a meld using the same
+A-F menu from Homework 1. The player can bank their points, reroll the dice that have not
+scored, or quit and see their current total. If a roll is a Farkle, the turn ends and all points
+earned during that turn are lost.
+
+I kept the original classes and added a Player class. Farkle contains the short main method
+that starts the game. FarkleGame handles input and controls the turn and Die represents
+one six-sided die. Hand stores the current roll and tracks which dice are selected. Meld
+calculates the score using the scoring rules from Homework 1. Player stores the name and
+accumulated points. 
+
+One important change was allowing Hand to contain anywhere from one to six dice. After a
+valid meld, the program adds its points to the running total and creates a new hand with the
+correct number of leftover dice. The previous meld's dice are no longer available for selection. 
+This keeps points from separate rolls from being counted again or combined into a new triple. If
+every remaining die is used in a scoring combo, the program announces a hot hand and allows six 
+new dice on the next roll.
+
+A major design issue was distinguishing selected dice from dice that actually score. Meld
+handles this by counting the dice used in scoring combos. Hand subtracts that count from
+the current roll size to decide how many dice to roll next. This also prevents the program
+from announcing a hot hand just because every die was selected. Another issue was keeping
+the earlier meld points while still resetting the whole turn to zero after a Farkle. Storing the
+accumulated points in Player keeps that separate from the current meld's score.
+
+If I had more time, I would add more complete turn tests for several rerolls. Also, the current 
+version focuses on one player's turn, but the separate Player and game classes provide a 
+starting point for adding multiple players and rounds later.

@@ -59,13 +59,8 @@ public final class Meld {
         return pairs == 3 ? 750 : 0;
     }
 
-    // Calculates the score using the HW1 Appendix B rules.
-    public int getScore() {
-        int[] counts = getCounts();
-        int specialScore = getSpecialScore(counts);
-        if (specialScore > 0) {
-            return specialScore;
-        }
+    // Scores triples, extra matching dice, and single ones and fives.
+    private int getBasicScore(int[] counts) {
         int score = 0;
         for (int face = 1; face <= 6; face++) {
             if (counts[face] >= 3) {
@@ -80,12 +75,8 @@ public final class Meld {
         return score;
     }
 
-    // Counts selected dice that are actually part of a scoring combo.
-    public int getScoringDiceCount() {
-        int[] counts = getCounts();
-        if (getSpecialScore(counts) > 0) {
-            return 6;
-        }
+    // Counts scoring dice outside a full house or six-die special combo.
+    private int getBasicScoringCount(int[] counts) {
         int scoringDice = 0;
         for (int face = 1; face <= 6; face++) {
             if (face == 1 || face == 5 || counts[face] >= 3) {
@@ -95,7 +86,44 @@ public final class Meld {
         return scoringDice;
     }
 
-    //Reports whether these dice cannot form any scoring combo.
+    // Chooses the best score without reusing dice between combos.
+    private int[] evaluate() {
+        int[] counts = getCounts();
+        int specialScore = getSpecialScore(counts);
+        if (specialScore > 0) {
+            return new int[] {specialScore, 6};
+        }
+        int bestScore = getBasicScore(counts);
+        int bestCount = getBasicScoringCount(counts);
+        for (int triple = 1; triple <= 6; triple++) {
+            for (int pair = 1; pair <= 6; pair++) {
+                if (triple != pair && counts[triple] >= 3 && counts[pair] >= 2) {
+                    int[] remaining = counts.clone();
+                    remaining[triple] -= 3;
+                    remaining[pair] -= 2;
+                    int score = 1500 + getBasicScore(remaining);
+                    int used = 5 + getBasicScoringCount(remaining);
+                    if (score > bestScore || (score == bestScore && used > bestCount)) {
+                        bestScore = score;
+                        bestCount = used;
+                    }
+                }
+            }
+        }
+        return new int[] {bestScore, bestCount};
+    }
+
+    // Calculates the meld score, including a full house worth 1500.
+    public int getScore() {
+        return evaluate()[0];
+    }
+
+    // Counts the dice used by the scoring combination.
+    public int getScoringDiceCount() {
+        return evaluate()[1];
+    }
+
+    // Reports whether these dice cannot form any scoring combo.
     public boolean isFarkle() {
         return getScore() == 0;
     }

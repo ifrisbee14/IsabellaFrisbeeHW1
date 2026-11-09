@@ -22,20 +22,20 @@ public final class Player {
         return name;
     }
 
-    // Returns the points accumulated this turn.
-    public int getScore() {
+    // Returns all points banked in this game.
+    public long getScore() {
         return score;
     }
 
-    // Adds a completed meld's score.
-    public void addPoints(int points) {
+    // Banks a completed turn's points.
+    public void addPoints(long points) {
         if (points < 0) {
             throw new IllegalArgumentException("Points cannot be negative");
         }
         score += points;
     }
 
-    // Clears the score when starting a turn or rolling a Farkle. 
+    // Resets the game score. A Farkle does not call this method. 
     public void resetScore() {
         score = 0;
     }

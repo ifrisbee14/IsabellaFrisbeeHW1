@@ -2,9 +2,9 @@
 
 Isabella Frisbee 
 Fall 2026
-Current assignment: HW2
+Current assignment: HW3
 
-This is a single player Java implementation of Zag Farkle. Run it from the folder containing the .java files using javac *.java then java Farkle.
+This extends HW2 into a complete single-player or multiplayer game. It adds the 1500-point full house, a configurable target, unique named defaults for multiplayer, scoreboards after every turn, and the final round.
 
 The game rolls and sorts six dice. Select dice by typing their A through F letters (for example: ACF) and pressing Enter. Type a selected letter again to remove that die from the meld. Type K to bank a meld worth more than zero points, R to reroll dice not used in scoring combos, or Q to quit with zero points. Letters are not case sensitive. You can enter multiple letters at once, such as ACFK. If the initial roll is a Farkle, the turn ends immediately.
 
